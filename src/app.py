@@ -14,6 +14,7 @@ import plotly.io as pio
 import plotly.graph_objs as go
 import math
 from scipy.stats import norm, skew
+from utils import Helpers
 
 import warnings 
 warnings.filterwarnings('ignore')
@@ -28,13 +29,15 @@ def set_value (data_value, outcome_value,mean_nodiab,mean_diab):
         return mean_diab
     else:
         return data_value
-
-def set_use_mean (name_col):
+helpers  = Helpers()
+helpers.set_value()
+def set_use_mean (name_col,df_raw):
 #calc the mean for diabetic and not diabetic that the data is not 0
     meanNoDiab = df_raw[(df_raw[name_col]>0) & (df_raw['Outcome']==0)][name_col].mean()
     meanDiab = df_raw[(df_raw[name_col]>0) & (df_raw['Outcome']==1)][name_col].mean()
 
     df_raw[name_col] = df_raw.apply(lambda x: set_value(x[name_col], x['Outcome'],meanNoDiab,meanDiab), axis=1)
+    return
 
 set_use_mean('Glucose')
 set_use_mean('Insulin')
