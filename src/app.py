@@ -2,22 +2,33 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-%matplotlib inline
 import plotly.express as px
-import seaborn as sns
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
 import seaborn as sns
 import plotly.offline as py
 import plotly.io as pio
 import plotly.graph_objs as go
 import math
-from scipy.stats import norm, skew
-from utils import Helpers
-
+import pydotplus
+import graphviz
+import os
 import warnings 
 warnings.filterwarnings('ignore')
+from sklearn.externals.six import StringIO  
+from IPython.display import Image  
+from sklearn.tree import export_graphviz
+from scipy.stats import norm, skew
+from utils import Helpers
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.datasets import load_iris
+from sklearn import tree
+from matplotlib import pyplot as plt
+from sklearn import decomposition, datasets
+from sklearn import tree
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import StandardScaler
 
 #Cargar el data set
 df_raw = pd.read_csv('https://raw.githubusercontent.com/4GeeksAcademy/decision-tree-project-tutorial/main/diabetes.csv')
@@ -46,7 +57,6 @@ set_use_mean('BloodPressure')
 set_use_mean('SkinThickness')
 df_raw.describe()
 
-import seaborn as sns
 corr = df_raw.corr()
 ax = sns.heatmap(
     corr, 
@@ -87,12 +97,7 @@ print(y_pred)
 #pip install six
 #pip install --upgrade scikit-learn==0.20.3
 #pip install pydotplus
-from sklearn.externals.six import StringIO  
-from IPython.display import Image  
-from sklearn.tree import export_graphviz
-import pydotplus
-import graphviz
-import os
+
 
 dot_data = StringIO()
 export_graphviz(classifier, out_file=dot_data,  
@@ -104,9 +109,6 @@ Image(graph.create_png())
 
 #Import the required libraries
 #https://www.section.io/engineering-education/entropy-information-gain-machine-learning/
-from sklearn.datasets import load_iris
-from sklearn import tree
-from matplotlib import pyplot as plt
 
 # split data Build and fit decision tree 
 X_train, X_test, Y_train, Y_test = train_test_split(x, y, test_size = 0.3, random_state=1)
@@ -120,13 +122,6 @@ tree.plot_tree(clf,ax=ax,feature_names=['Pregnancies', 'Insulin', 'BMI', 'Age', 
 plt.show()
 
 #Step 1 - Import the library - GridSearchCv
-
-from sklearn import decomposition, datasets
-from sklearn import tree
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import StandardScaler
-
 #Step 2 - Setup the Data
 #dataset = datasets.load_wine()
     #X = dataset.data
